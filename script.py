@@ -1,5 +1,6 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
+import selenium.common.exceptions
 
 import requests
 import time
@@ -62,7 +63,10 @@ def login2():
 
     while flag:
         time.sleep(3)
-        driver.refresh()
+        try:
+            driver.refresh()
+        except selenium.common.exceptions.TimeoutException:
+            driver.refresh()
 
         # Process page source with BeautifulSoup
         page_source = driver.page_source
