@@ -81,4 +81,6 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
+chromedriver
+
 # End of https://www.gitignore.io/api/pycharm
