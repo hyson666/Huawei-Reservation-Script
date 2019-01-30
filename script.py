@@ -1,9 +1,11 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
+from pyvirtualdisplay import Display
 
 import requests
 import time
 import re
+import selenium.common.exceptions
 
 
 # Login by requests
@@ -35,11 +37,13 @@ def login():
 
 # Login by selenium
 def login2():
-    opt = webdriver.ChromeOptions()
-    opt.add_argument("--headless")
-    opt.add_argument("--disable-gpu")
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument("window-size=1024,768")
+    chrome_options.add_argument("--no-sandbox")
 
-    driver = webdriver.Chrome("/Users/hyson/Downloads/chromedriver")
+    driver = webdriver.Chrome("./chromedriver", options=chrome_options)
     driver.get("http://hr-welcometo.huawei.com/wcaportal")
     driver.find_element_by_name("uid").send_keys("hyson1996@163.com")
     driver.find_element_by_name("password").send_keys("h1s_wantto10ve")
@@ -62,7 +66,11 @@ def login2():
 
     while flag:
         time.sleep(3)
-        driver.refresh()
+
+        try:
+            driver.refresh()
+        except selenium.common.exceptions.TimeoutException:
+            driver.refresh()
 
         # Process page source with BeautifulSoup
         page_source = driver.page_source
