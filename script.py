@@ -1,10 +1,11 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
-import selenium.common.exceptions
+from selenium.webdriver.chrome.options import Options
 
 import requests
 import time
 import re
+import selenium.common.exceptions
 
 
 # Login by requests
@@ -36,11 +37,14 @@ def login():
 
 # Login by selenium
 def login2():
-    opt = webdriver.ChromeOptions()
-    opt.add_argument("--headless")
-    opt.add_argument("--disable-gpu")
+    chrome_options = Options()
+    chrome_options.add_argument('window-size=1920x3000')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--hide-scrollbars')
+    chrome_options.add_argument('blink-settings=imagesEnabled=false')
+    chrome_options.add_argument('--headless')
 
-    driver = webdriver.Chrome("/Users/hyson/Downloads/chromedriver")
+    driver = webdriver.Chrome("./chromedriver", options=chrome_options)
     driver.get("http://hr-welcometo.huawei.com/wcaportal")
     driver.find_element_by_name("uid").send_keys("hyson1996@163.com")
     driver.find_element_by_name("password").send_keys("h1s_wantto10ve")
@@ -63,14 +67,14 @@ def login2():
 
     while flag:
         time.sleep(3)
+
         try:
             driver.refresh()
+            # Process page source with BeautifulSoup
+            page_source = driver.page_source
+            bs_obj = BeautifulSoup(page_source, features="html.parser")
         except selenium.common.exceptions.TimeoutException:
-            driver.refresh()
-
-        # Process page source with BeautifulSoup
-        page_source = driver.page_source
-        bs_obj = BeautifulSoup(page_source, features="html.parser")
+            continue
 
         all_jul_item = bs_obj.find_all(text=re.compile(u"[1-9]+ Jul"))
 
@@ -96,7 +100,6 @@ def login2():
                 break
             elif status == "gray":
                 print(date + "暂时不可预约")
-
 
 
 if __name__ == '__main__':
