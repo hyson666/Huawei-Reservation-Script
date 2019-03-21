@@ -15,8 +15,15 @@ A serve or your personal computer, a cup of coffee will be better if you want.
 Run instruction below to download this code to your server.
 
 ```
-git clone 
+git clone git@github.com:hyson666/Huawei-Reservation-Script.git
 ```
+
+
+Next, you need to download chromedriver for running this script, using site below:
+
+http://chromedriver.storage.googleapis.com/index.html
+
+Please download according to your environment, and put it into the folder of this script.
 
 ## Running the script
 
