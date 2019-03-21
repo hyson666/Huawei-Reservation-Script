@@ -84,6 +84,8 @@ fabric.properties
 
 chromedriver
 
+.DS_Store
+
 *.log
 
 # End of https://www.gitignore.io/api/pycharm
